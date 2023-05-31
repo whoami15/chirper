@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreChirpRequest;
 use App\Models\Chirp;
+use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -38,7 +39,7 @@ class ChirpController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreChirpRequest $request)
+    public function store(StoreChirpRequest $request): RedirectResponse
     {
         $request->user()->chirps()->create($request->validated());
 
@@ -64,7 +65,7 @@ class ChirpController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(StoreChirpRequest $request, Chirp $chirp)
+    public function update(StoreChirpRequest $request, Chirp $chirp): RedirectResponse
     {
         $chirp->update($request->validated());
 
@@ -76,6 +77,8 @@ class ChirpController extends Controller
      */
     public function destroy(Chirp $chirp)
     {
-        //
+        $chirp->delete();
+
+        return to_route('chirps.index');
     }
 }
